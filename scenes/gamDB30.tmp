@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cebp2m4lfxvpr"]
+
+[ext_resource type="PackedScene" uid="uid://d1u6yl6d0ds0s" path="res://Characters/player2.tscn" id="1_epx8y"]
+
+[sub_resource type="GDScript" id="GDScript_7il1v"]
+script/source = "extends Node2D
+@onready var player1 = $Player1
+@onready var player2 = $Player2
+
+func _ready():
+	# Get the connected controllers (gamepads)
+	var connected_devices = Input.get_connected_joypads()
+
+	# Assign controllers to players if enough controllers are connected
+	if connected_devices.size() >= 2:
+		player1.player_index = connected_devices[0]  # Assign first controller to player1
+		player2.player_index = connected_devices[1]  # Assign second controller to player2
+	else:
+		print(\"Not enough controllers connected!\")
+"
+
+[node name="Game" type="Node2D"]
+script = SubResource("GDScript_7il1v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="Player2" parent="." instance=ExtResource("1_epx8y")]
+position = Vector2(-50, 0)
+
+[node name="Player1" parent="." instance=ExtResource("1_epx8y")]
+position = Vector2(50, 0)
